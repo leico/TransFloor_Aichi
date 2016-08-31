@@ -101,6 +101,7 @@ class KinectCV{
 
   const std :: vector<ofxOscMessage>& Humans(void);
   const std :: string SettingData(void);
+        void          SettingData(const ofxJSON& data);
 
   protected:
   void Reconnect(void);
@@ -252,7 +253,6 @@ inline void KinectCV :: setup (const std :: string &_serial){
 
   serial = _serial;
 
-  std :: cout << SettingData() << endl;
   kinect.init();
   kinect.open(_serial);
 
@@ -491,14 +491,34 @@ inline const std :: string KinectCV :: SettingData(void){
   json[serial]["blur"]          = Blur         ();
   json[serial]["area"]["min"]   = MinArea      ();
   json[serial]["area"]["max"]   = MaxArea      ();
-  json[serial]["clip"]          = ofxJSON :: Convert( ClipArea() );
-  json[serial]["size"]          = ofxJSON :: Convert( Size() );
+  json[serial]["clip"]          = ofxJSON :: Encode( ClipArea() );
+  json[serial]["size"]          = ofxJSON :: Encode( Size() );
   json[serial]["mirror"]["v"]   = VMirror      ();
   json[serial]["mirror"]["h"]   = HMirror      ();
   json[serial]["binarydisplay"] = BinaryDisplay();
   json[serial]["secondary"]     = Secondary    ();
 
   return json.getRawString();
+}
+
+/* ========================================================= *
+ * void SettingData(const ofxJSON& data)                     *
+ * ========================================================= */
+inline void KinectCV :: SettingData(const ofxJSON& data){
+  
+  MinDepth     ( static_cast<unsigned char>(data[serial]["depth"]["min"].asUInt()) );
+  MaxDepth     ( static_cast<unsigned char>(data[serial]["depth"]["max"].asUInt()) );
+  Angle        ( data[serial]["angle"]        .asInt() );
+  Blur         ( data[serial]["blur"]         .asInt() );
+  MinArea      ( data[serial]["area"]["min"]  .asInt() );
+  MaxArea      ( data[serial]["area"]["max"]  .asInt() );
+  ClipArea     ( ofxJSON :: Decode<ofRectangle>( data[serial]["clip"] ) );
+  Size         ( ofxJSON :: Decode<ofVec2f>    ( data[serial]["size"] ) );
+  VMirror      ( data[serial]["mirror"]["v"]  .asBool() );
+  HMirror      ( data[serial]["mirror"]["h"]  .asBool() );
+  BinaryDisplay( data[serial]["binarydisplay"].asBool() );
+  Secondary    ( data[serial]["secondary"]    .asBool() );
+  
 }
 
 

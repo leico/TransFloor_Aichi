@@ -14,7 +14,7 @@
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "emptyExample",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
-  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "004_DoubleKinect\/emptyExample.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "004_JsonRead\/emptyExample.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/leico\/TransFloor_Aichi.git",

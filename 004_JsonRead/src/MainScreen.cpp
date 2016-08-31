@@ -7,10 +7,21 @@ const std :: string MainScreen :: jsonfile("settings.json");
 //--------------------------------------------------------------
 void MainScreen::setup(){
     
-  ofSetLogLevel(OF_LOG_WARNING);
+  ofSetLogLevel(OF_LOG_VERBOSE);
 
   ofxKinect :: listDevices();
   kinectcv.setup("A00364800479053A");
+
+  ofxJSON json;
+  if( json.open(jsonfile) ){
+    ofLogVerbose() << "RawString:" << endl << json.getRawString() << endl;
+    kinectcv.SettingData( json );
+    ofLogVerbose() << "SettingData:" << endl << kinectcv.SettingData() << endl;
+  }
+  else{
+    ofLogWarning() << "json.open: Can't open file, use default settings" << std :: endl;
+  }
+
 
   receiver.setup(12345);
 
