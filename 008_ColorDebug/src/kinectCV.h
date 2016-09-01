@@ -377,6 +377,8 @@ inline void KinectCV :: draw(const int x, const int y){
     case DISPLAYMODE :: BINARY: binaryImage.draw(x, y, Size().x, Size().y); break;
   }
 
+  contourfinder.draw(x, y, Size().x, Size().y);
+
   ofSetColor(255);
   ofDrawCircle( center, sqrt(MaxArea() / M_PI) );
   ofSetColor(0);
