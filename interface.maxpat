@@ -42,10 +42,10 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 2,
-					"outlettype" : [ "int", "/kinect/hmirror" ],
-					"patching_rect" : [ 828.0, 501.0, 99.0, 22.0 ],
+					"outlettype" : [ "int", "/kinect/secondary" ],
+					"patching_rect" : [ 828.0, 501.0, 117.0, 22.0 ],
 					"style" : "",
-					"text" : "t i /kinect/hmirror"
+					"text" : "t i /kinect/secondary"
 				}
 
 			}
@@ -59,7 +59,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 42.0, 181.0, 67.0, 20.0 ],
 					"style" : "",
-					"text" : "Secondaly"
+					"text" : "Secondary"
 				}
 
 			}
@@ -177,7 +177,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 908.0, 573.0, 84.0, 22.0 ],
+					"patching_rect" : [ 926.0, 573.0, 84.0, 22.0 ],
 					"style" : "",
 					"text" : "s #0_Address"
 				}
@@ -1229,7 +1229,7 @@
 					"destination" : [ "obj-64", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 799.5, 555.0, 917.5, 555.0 ],
+					"midpoints" : [ 799.5, 555.0, 935.5, 555.0 ],
 					"source" : [ "obj-25", 1 ]
 				}
 
@@ -1478,7 +1478,7 @@
 					"destination" : [ "obj-64", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 176.5, 555.0, 917.5, 555.0 ],
+					"midpoints" : [ 176.5, 555.0, 935.5, 555.0 ],
 					"source" : [ "obj-45", 1 ]
 				}
 
@@ -1635,7 +1635,7 @@
 					"destination" : [ "obj-64", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 414.5, 555.0, 917.5, 555.0 ],
+					"midpoints" : [ 414.5, 555.0, 935.5, 555.0 ],
 					"source" : [ "obj-86", 1 ]
 				}
 
@@ -1655,7 +1655,7 @@
 					"destination" : [ "obj-64", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 518.5, 555.0, 917.5, 555.0 ],
+					"midpoints" : [ 518.5, 555.0, 935.5, 555.0 ],
 					"source" : [ "obj-87", 1 ]
 				}
 
@@ -1675,7 +1675,7 @@
 					"destination" : [ "obj-64", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 659.5, 555.0, 917.5, 555.0 ],
+					"midpoints" : [ 659.5, 555.0, 935.5, 555.0 ],
 					"source" : [ "obj-89", 1 ]
 				}
 
