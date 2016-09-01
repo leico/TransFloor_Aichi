@@ -229,6 +229,7 @@ inline       void KinectCV :: Secondary(const bool _secondary){ secondary = _sec
  * void setup(const std :: string &serial)                   *
  * ========================================================= */
 inline void KinectCV :: setup (const std :: string &_serial){
+  serial = _serial;
 
   humans.resize(1024);
   humans.clear();
@@ -251,14 +252,12 @@ inline void KinectCV :: setup (const std :: string &_serial){
   BinaryDisplay(false);
   Secondary(false);
 
-  serial = _serial;
-
   kinect.init();
   kinect.open(_serial);
 
-
   grayImage  .allocate( kinect.getWidth(), kinect.getHeight() );
   binaryImage.allocate( Size().x, Size().y );
+
 
 }
 
@@ -489,8 +488,8 @@ inline const std :: string KinectCV :: SettingData(void){
   json[serial]["depth"]["max"]  = MaxDepth     ();
   json[serial]["angle"]         = Angle        ();
   json[serial]["blur"]          = Blur         ();
-  json[serial]["area"]["min"]   = sqrt( MinArea() / M_PI );
-  json[serial]["area"]["max"]   = sqrt( MaxArea() / M_PI );
+  json[serial]["area"]["min"]   = int( roundf( sqrt( MinArea() / M_PI ) ) );
+  json[serial]["area"]["max"]   = int( roundf( sqrt( MaxArea() / M_PI ) ) );
   json[serial]["clip"]          = ofxJSON :: Encode( ClipArea() );
   json[serial]["size"]          = ofxJSON :: Encode( Size() );
   json[serial]["mirror"]["v"]   = VMirror      ();
@@ -521,6 +520,9 @@ inline void KinectCV :: SettingData(const ofxJSON& data){
   HMirror      ( data[serial]["mirror"]["h"]  .asBool() );
   BinaryDisplay( data[serial]["binarydisplay"].asBool() );
   Secondary    ( data[serial]["secondary"]    .asBool() );
+
+
+  std :: cout << SettingData() << std :: endl;
   
 }
 

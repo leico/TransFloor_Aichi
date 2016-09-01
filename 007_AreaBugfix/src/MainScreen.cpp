@@ -12,10 +12,12 @@ void MainScreen::setup(){
 
   ofxKinect :: listDevices();
   kinect1.setup("A00364800479053A");
-  kinect2.setup("A00363907873053A");
+  kinect2.setup("A00363A02391053A");
 
   ofxJSON json;
   if( json.open(jsonfile) ){
+    cout << json.getRawString() << endl;
+
     kinect1.SettingData( json );
     kinect2.SettingData( json );
   }
