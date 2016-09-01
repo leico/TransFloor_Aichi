@@ -11,8 +11,9 @@
 
 class Gravity : public Base{
 
-  const static int WIDTH  = 80;
-  const static int HEIGHT = 100;
+  const static int WIDTH   = 80;
+  const static int HEIGHT  = 100;
+  const static int PADDING = 200;
 
   ofVec2f circles[WIDTH][HEIGHT];
 
@@ -50,17 +51,14 @@ class Gravity : public Base{
 
 
       //calicurate gravity field
-      int lamdawidth  = ofGetWidth () / WIDTH;
-      int lamdaheight = ofGetHeight() / HEIGHT;
-
-      cout << ofGetWidth() << endl;
-      cout << ofGetHeight() << endl;
+      int lamdawidth  = (ofGetWidth () + PADDING * 2) / WIDTH;
+      int lamdaheight = (ofGetHeight() + PADDING * 2) / HEIGHT;
 
       for(int y = 0 ; y < HEIGHT ; ++ y){
         for(int x = 0 ; x < WIDTH ; ++ x){
 
           //set basic position
-          circles[x][y] = ofVec2f(lamdawidth * x, lamdaheight * y);
+          circles[x][y] = ofVec2f(-PADDING + lamdawidth * x, -PADDING + lamdaheight * y);
 
           for(int i = 0 ; i < humans.size() ; ++ i){
 

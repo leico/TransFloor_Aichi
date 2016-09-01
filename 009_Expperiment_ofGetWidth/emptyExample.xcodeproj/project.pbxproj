@@ -60,6 +60,7 @@
 		E7E077E515D3B63C0020DFD4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7E077E415D3B63C0020DFD4 /* CoreVideo.framework */; };
 		E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7E077E715D3B6510020DFD4 /* QTKit.framework */; };
 		E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7F985F515E0DE99003869B5 /* Accelerate.framework */; };
+		FB9A7E4F1D785D51008836C4 /* Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB9A7E4D1D785D51008836C4 /* Base.cpp */; };
 		FCEB094E1C101F9A00625F12 /* Change.mm in Sources */ = {isa = PBXBuildFile; fileRef = FCEB094D1C101F9A00625F12 /* Change.mm */; };
 /* End PBXBuildFile section */
 
@@ -284,6 +285,7 @@
 		E7E077E415D3B63C0020DFD4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		E7E077E715D3B6510020DFD4 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		E7F985F515E0DE99003869B5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
+		FB9A7E4D1D785D51008836C4 /* Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Base.cpp; sourceTree = "<group>"; };
 		FBFA85021D77F492007FF77C /* settings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = settings.json; sourceTree = "<group>"; };
 		FC04C5A41C0DC130000676E6 /* tkm001.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tkm001.h; sourceTree = "<group>"; };
 		FC04C5A51C0DC181000676E6 /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
@@ -989,6 +991,7 @@
 				FCEB094A1C101F8C00625F12 /* kinectCV.h */,
 				FC04C5A41C0DC130000676E6 /* tkm001.h */,
 				FC04C5A51C0DC181000676E6 /* Base.h */,
+				FB9A7E4D1D785D51008836C4 /* Base.cpp */,
 				FCEB09471C1011A300625F12 /* Blank.h */,
 				FCB987E41C10442200EB54BC /* RippleScene */,
 				FCEB094C1C101F9A00625F12 /* Change.h */,
@@ -1113,6 +1116,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB9A7E4F1D785D51008836C4 /* Base.cpp in Sources */,
 				561FB22B1BFC855E00191566 /* keep_alive.c in Sources */,
 				561FB2B81BFC894F00191566 /* ofxCvShortImage.cpp in Sources */,
 				56C09BFB1C071C8300E9FDBD /* UdpSocket.cpp in Sources */,
