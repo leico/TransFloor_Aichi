@@ -46,6 +46,9 @@ class MainScreen : public ofBaseApp{
   void windowResized(int w, int h);
   void dragEvent(ofDragInfo dragInfo);
   void gotMessage(ofMessage msg);
+
+  const int ofGetWidth (void);
+  const int ofGetHeight(void);
 };
 
 

@@ -56,6 +56,8 @@ void MainScreen :: exit(){
 //--------------------------------------------------------------
 void MainScreen::update(){
 
+  ofGetHeight();
+
   kinect1.update();
   kinect2.update();
   
@@ -165,6 +167,7 @@ void MainScreen::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void MainScreen::windowResized(int w, int h){
+    cout << "Call:" << w << "," << h << endl;
 
 }
 
@@ -176,4 +179,39 @@ void MainScreen::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void MainScreen::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+//--------------------------------------------------------------
+const int MainScreen :: ofGetWidth(void){
+
+  int width = 0;
+  int count;
+
+  GLFWmonitor **monitors = glfwGetMonitors(&count);
+
+  for(int i = 0 ; i < count ; ++ i){
+    const GLFWvidmode *vidmode = glfwGetVideoMode( monitors[i] );
+    width = (vidmode -> width > width ) ? vidmode -> width : width;
+  }
+
+  cout << width << endl;
+
+  return width;
+  
+}
+
+const int MainScreen :: ofGetHeight(void){
+  int height = 0;
+  int count;
+
+  GLFWmonitor  **monitors = glfwGetMonitors(&count);
+  
+  for(int i = 0 ; i < count ; ++ i){
+    const GLFWvidmode *vidmode = glfwGetVideoMode( monitors[i] );
+    height += vidmode -> height;
+  }
+
+  cout << height << endl;
+  
+  return height;
 }
