@@ -32,7 +32,7 @@ void MainScreen::setup(){
 
   DisplaySetup();
 
-  basedraw = new Gravity();
+  basedraw = new Relation();
   basedraw -> setup();
 
   basedraw -> resize( ofGetWidth(), ofGetHeight() );
