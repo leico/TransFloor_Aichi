@@ -27,10 +27,6 @@ class Gushi01 : public Base{
     ofBackground(0);
     ofFill();
 
-    //audioをロード
-    //curve.load("sound/curve.wav");
-    //curve.setLoop(true);
-    //curve.play();
     curves.resize(32);
     for(int i = 0 ; i < curves.size() ; ++ i){
       curves[i].load("sound/curve.wav");
@@ -51,6 +47,9 @@ class Gushi01 : public Base{
   }
   //-----------------------------------------------------
   void osc (vector <ofxOscMessage> &m){
+
+    for(int i = 0 ; i < curves.size() ; ++ i)
+      curves[i].setVolume(0);
 
     volume = 1.0 / float(m.size());
 
@@ -87,10 +86,10 @@ class Gushi01 : public Base{
      
       for(int j = 0 ; j < 3 ; ++ j){
         ofSetColor(ofRandom(100, 255), ofRandom(100, 255), ofRandom(100, 255));
-        ofDrawBezier(humans[i].x                , humans[i].y,
-                     humans[i].x + ofRandom(300), humans[i].y + ofRandom(300),
-                     center.x    + ofRandom(300), center.y    + ofRandom(300),
-                     center.x                   , center.y                   );
+        ofDrawBezier(humans[i].x                      , humans[i].y,
+                     humans[i].x + ofRandom(-300, 300), humans[i].y + ofRandom(-300, 300),
+                     center.x    + ofRandom(-300, 300), center.y    + ofRandom(-300, 300),
+                     center.x                         , center.y                         );
       }
     }
 
