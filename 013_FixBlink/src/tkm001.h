@@ -39,6 +39,8 @@ public:
         ofSetBackgroundAuto(false);
         
         ofClear(0);
+      glFlush();
+      ofClear(0);
     }
     
     
