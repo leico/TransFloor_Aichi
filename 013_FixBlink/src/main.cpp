@@ -20,6 +20,8 @@ int main( ){
   settings.resizable = true;
   settings.multiMonitorFullScreen = true;
   settings.doubleBuffering = false;
+  settings.setGLVersion(2, 1);
+
 
   shared_ptr<ofAppBaseWindow> window = ofCreateWindow(settings);
   shared_ptr<MainScreen> mainApp(new MainScreen);
