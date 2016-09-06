@@ -82,7 +82,7 @@ class takami : public Base{
         // パーティクルの数だけ計算
         for (int j = 0; j < humans.size(); j++){
           // 力をリセット
-          //particles[i].resetForce();
+          particles[i].resetForce();
           //引力
           particles[i].addRepulsionForce(humans[j].x, humans[j].y, 300, 0.1);
         }
