@@ -79,5 +79,6 @@ inline void MainScreen :: DisplaySetup(void){
   ofSetLineWidth(1);
   ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 
+  ofSetCircleResolution(32);
 }
 
