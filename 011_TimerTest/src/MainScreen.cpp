@@ -149,8 +149,11 @@ void MainScreen::update(){
   basedraw -> osc( humans );
   basedraw -> update();
 
-  if(humans.size() == 0) nohuman.Start(10000, 1);
-  else                   nohuman.Stop();
+  if(humans.size() == 0){
+    if(nohuman.Status() != ofxSimpleTimer<string> :: STATUS :: RUN)
+      nohuman.Start(10000, 1);
+  }
+  else nohuman.Stop();
 }
 
 //--------------------------------------------------------------
