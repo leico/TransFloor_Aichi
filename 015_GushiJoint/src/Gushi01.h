@@ -89,8 +89,8 @@ class Gushi01 : public Base{
         ofSetColor(ofRandom(100, 255), ofRandom(100, 255), ofRandom(100, 255));
         ofDrawBezier(humans[i].x                , humans[i].y,
                      humans[i].x + ofRandom(300), humans[i].y + ofRandom(300),
-                     center.x                   , center.y,
-                     center.x    + ofRandom(300), center.y    + ofRandom(300) );
+                     center.x    + ofRandom(300), center.y    + ofRandom(300),
+                     center.x                   , center.y                   );
       }
     }
 

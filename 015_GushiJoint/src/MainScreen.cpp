@@ -36,7 +36,7 @@ void MainScreen::setup(){
 
   DisplaySetup();
 
-  basedraw = new takami();
+  basedraw = new Gushi01();
   basedraw -> setup();
 
   basedraw -> resize( ofGetWidth(), ofGetHeight() );
