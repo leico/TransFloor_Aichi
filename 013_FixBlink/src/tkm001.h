@@ -8,7 +8,7 @@
 
 #ifndef __mySketch__tkm001__
 #define __mySketch__tkm001__
-
+#include "ofMain.h"
 #include "Base.h"
 
 
