@@ -38,7 +38,7 @@ class MainScreen : public ofBaseApp{
         void Debug(const bool debug);
 
 
-  const static int SCENE_NUM = 6;
+  const static int SCENE_NUM = 7;
   int  scene;
   Base *basedraw;
   void DisplaySetup(void);

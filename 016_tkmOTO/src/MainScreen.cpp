@@ -73,6 +73,7 @@ void MainScreen :: SceneChange(bool& id){
     case 3  : delete basedraw; basedraw = new Gravity();     break; //Gravity
     case 4  : delete basedraw; basedraw = new takami();      break; //EscapeParticles
     case 5  : delete basedraw; basedraw = new Gushi01();     break; //prrrrrrrroooo
+    case 6  : delete basedraw; basedraw = new tkmOTO();      break; //tkmOTO
     default : return;                                        break; //nomatch
   }
 
@@ -139,6 +140,7 @@ void MainScreen::update(){
         case 4  : delete basedraw; basedraw = new Gravity();     break; //Gravity
         case 5  : delete basedraw; basedraw = new takami();      break; //EscapeParticles
         case 6  : delete basedraw; basedraw = new Gushi01();     break; //prrrrrrrroooo
+        case 7  : delete basedraw; basedraw = new tkmOTO();      break; //tkmOTO
         default : m.clear();       continue;                     break; //nomatch
       }
 
