@@ -31,10 +31,13 @@ class tkm001 :public Base{
 
       rag=0;
       hueNum=0;
-      ofSetBackgroundAuto(false);
+      ofSetBackgroundAuto(true);
       ofFill();
 
       fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
+      fbo.begin();
+      ofClear(0);
+      fbo.end();
     }
 
 
