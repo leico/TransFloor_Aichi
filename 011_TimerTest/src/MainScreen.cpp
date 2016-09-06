@@ -154,6 +154,8 @@ void MainScreen::update(){
       nohuman.Start(10000, 1);
   }
   else nohuman.Stop();
+  
+  nohuman.Update();
 }
 
 //--------------------------------------------------------------
