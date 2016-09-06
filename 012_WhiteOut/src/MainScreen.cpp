@@ -36,7 +36,7 @@ void MainScreen::setup(){
 
   DisplaySetup();
 
-  basedraw = new RippleScene();
+  basedraw = new tkm001();
   basedraw -> setup();
 
   basedraw -> resize( ofGetWidth(), ofGetHeight() );
@@ -167,12 +167,13 @@ void MainScreen::update(){
   basedraw -> update();
 
   if(humans.size() == 0){
-    if(nohuman.Status() != ofxSimpleTimer<string> :: STATUS :: RUN)
+    if(nohuman.Status() != ofxSimpleTimer<bool> :: STATUS :: RUN)
       nohuman.Start(10000, 1);
   }
   else nohuman.Stop();
   
   nohuman.Update();
+  whiteout.Update();
 }
 
 //--------------------------------------------------------------
