@@ -19,6 +19,7 @@ int main( ){
   settings.setPosition( ofVec2f(20, 20) );
   settings.resizable = true;
   settings.multiMonitorFullScreen = true;
+  settings.doubleBuffering = false;
 
   shared_ptr<ofAppBaseWindow> window = ofCreateWindow(settings);
   shared_ptr<MainScreen> mainApp(new MainScreen);
