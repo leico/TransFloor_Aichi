@@ -52,6 +52,8 @@ void MainScreen :: WhiteOut(bool& id){
 
   DisplaySetup();
   basedraw -> setup();
+
+  style = ofGetStyle();
   
   whiteout.Start(5000, 1);
 }
@@ -75,6 +77,8 @@ void MainScreen :: SceneChange(bool& id){
 
   DisplaySetup();
   basedraw -> setup();
+
+  style = ofGetStyle();
 
 }
 

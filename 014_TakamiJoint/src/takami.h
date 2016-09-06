@@ -77,24 +77,18 @@ class takami : public Base{
 
     void update(void){
 
-      if (humans.size() >= 1)
-      {
-        for (int i = 0; i < particles.size(); i++){
-          // パーティクルの数だけ計算
-          for (int j = 0; j < humans.size(); j++){
-
-
-            // 力をリセット
-            particles[i].resetForce();
-            //引力
-            particles[i].addRepulsionForce(humans[j].x, humans[j].y, 300, 0.1);
-
-            // パーティクル更新
-            particles[i].update();
-            // 画面の端にきたら反対側へ
-            particles[i].bounceOffWalls();
-          }
+      for (int i = 0; i < particles.size(); i++){
+        // パーティクルの数だけ計算
+        for (int j = 0; j < humans.size(); j++){
+          // 力をリセット
+          //particles[i].resetForce();
+          //引力
+          particles[i].addRepulsionForce(humans[j].x, humans[j].y, 300, 0.1);
         }
+        // パーティクル更新
+        particles[i].update();
+        // 画面の端にきたら反対側へ
+        particles[i].bounceOffWalls();
       }
 
 
