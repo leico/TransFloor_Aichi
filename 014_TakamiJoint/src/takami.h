@@ -35,6 +35,8 @@ class takami : public Base{
       ofSetBackgroundAuto(true);
       ofFill();
 
+      Particle :: resize(ofGetWidth(), ofGetHeight());
+
       for (int i = 0; i < NUM; i++) {
         ofColor c;
         c.setHsb(ofRandom(255), 180, 255,255);
@@ -44,7 +46,6 @@ class takami : public Base{
         float k = ofRandom(360);
         kaiten.push_back(k);
         
-        Particle :: resize(ofGetWidth(), ofGetHeight());
 
         Particle p;
         p.friction = 0.002;
@@ -141,6 +142,11 @@ class takami : public Base{
     void resize(const int w, const int h){
       Base :: resize(w, h);
       Particle :: resize(w, h);
+      
+      for(int i = 0 ; i < particles.size() ; ++ i)
+        particles.at(i).setup(ofVec2f(ofRandom(ofGetWidth()), ofRandom(ofGetHeight())), ofVec2f(0, 0));
+
+      
     }
 
 
