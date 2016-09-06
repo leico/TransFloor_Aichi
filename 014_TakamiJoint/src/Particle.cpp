@@ -10,6 +10,12 @@
 
 #include "Particle.h"
 
+
+int Particle :: width;
+int Particle :: height;
+
+
+
 Particle::Particle(){
     radius = 5.0;
     friction = 0.3;

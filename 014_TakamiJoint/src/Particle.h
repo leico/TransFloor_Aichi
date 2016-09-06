@@ -15,6 +15,9 @@
 #include "ofMain.h"
 
 class Particle {
+
+  static int width;
+  static int height;
     
 public:
     //コンストラクタ
@@ -62,6 +65,13 @@ public:
     bool bFixed;
     // パーティクルの質量
     float mass;
+
+    static void resize(const int w, const int h){
+      width = w; height = h;
+    }
+
+    const int ofGetWidth (void){return width;}
+    const int ofGetHeight(void){return height;}
 };
     
 #endif /* defined(__emptyExample__Particle__) */

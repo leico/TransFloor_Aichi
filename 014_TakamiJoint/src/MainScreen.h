@@ -40,6 +40,8 @@ class MainScreen : public ofBaseApp{
   int  scene;
   Base *basedraw;
   void DisplaySetup(void);
+  
+  ofStyle style;
 
   public:
   void setup();

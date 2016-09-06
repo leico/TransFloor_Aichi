@@ -40,6 +40,8 @@ void MainScreen::setup(){
   basedraw -> setup();
 
   basedraw -> resize( ofGetWidth(), ofGetHeight() );
+  
+  style = ofGetStyle();
 }
 /* =================================================================== *
  * void WhiteOut(bool& id)                                             *
@@ -114,6 +116,8 @@ void MainScreen::update(){
       //Display Setting initialize
       DisplaySetup();
       if( ! Debug() ) basedraw -> setup();
+      
+      style = ofGetStyle();
 
       m.clear();
       continue;
@@ -134,6 +138,8 @@ void MainScreen::update(){
 
       DisplaySetup();
       basedraw -> setup();
+      
+      style = ofGetStyle();
       continue;
     }
 
@@ -173,6 +179,8 @@ void MainScreen::update(){
 
 //--------------------------------------------------------------
 void MainScreen::draw(){
+  
+  ofSetStyle(style);
 
   if( Debug() ){
     kinect1.draw();
