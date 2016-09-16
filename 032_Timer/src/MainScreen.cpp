@@ -209,6 +209,10 @@ void MainScreen::dragEvent(ofDragInfo dragInfo){
  * void WhiteOut(bool& id)                                             *
  * =================================================================== */
 void MainScreen :: WhiteOut(bool& id){
+
+  nohuman    .Stop();
+  forcechange.Stop();
+
   delete basedraw;
   basedraw = new class WhiteOut();
 
