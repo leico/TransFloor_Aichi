@@ -16,7 +16,7 @@
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "emptyExample",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
-  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "032_bugfix_Timer\/emptyExample.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "033_bugfix_Timer\/emptyExample.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/leico\/ofxSimpleTimer.git",

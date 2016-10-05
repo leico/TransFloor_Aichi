@@ -27,7 +27,7 @@ class MainScreen : public ofBaseApp{
 
   ofxSimpleTimer<bool> forcechange;
   ofTrueTypeFont font;
-  const static int FORCECHAGE_TIME = 600000;
+  const static int FORCECHANGE_TIME = 600000;
 
   
   ofxCvGrayscaleImage binaryImage;
@@ -50,7 +50,7 @@ class MainScreen : public ofBaseApp{
   void setup_KinectCV(void);
   void setup_Timer   (void);
 
-  const vector<ofxOscMessage> update_KinectCV(void);
+  void update_KinectCV(vector<ofxOscMessage>& humans);
 
   void SceneChange(const int scene);
 
@@ -99,3 +99,156 @@ inline void MainScreen :: DisplaySetup(void){
   ofSetCircleResolution(32);
 }
 
+/* =================================================================== *
+ * void WhiteOut(bool& id)                                             *
+ * =================================================================== */
+inline void MainScreen :: WhiteOut(bool& id){
+  
+  nohuman    .Stop();
+  forcechange.Stop();
+  
+  delete basedraw;
+  basedraw = new class WhiteOut();
+  
+  DisplaySetup();
+  basedraw -> setup();
+  
+  style = ofGetStyle();
+  
+  whiteout.Start(WHITEOUT_TIME, 1);
+}
+
+/* =================================================================== *
+ * void End_WhiteOut(bool& id)                                         *
+ * =================================================================== */
+inline void MainScreen :: End_WhiteOut(bool& id){
+  
+  scene = (scene + 1) % SCENE_NUM;
+  
+  SceneChange( scene + 1 );
+  return;
+  
+}
+
+
+/* =================================================================== *
+ * void setup_KinectCV(void)                                           *
+ * =================================================================== */
+inline void MainScreen :: setup_KinectCV(void){
+  
+  ofxKinect :: listDevices();
+  {
+    ofxJSON json;
+    if( ( json.open(serialfile) ) && ( ! json.isNull() ) ){
+      kinect1.setup( json[0].asString() );
+      kinect2.setup( json[1].asString() );
+    }
+    else{
+      ofLogWarning() << "json.open: Can't open serial.json file, use default serial" << std :: endl;
+      kinect1.setup("A00364800479053A");
+      kinect2.setup("A00363A02391053A");
+    }
+    if( json.open(jsonfile) ){
+      ofLogVerbose() << json.getRawString() << endl;
+      
+      kinect1.SettingData( json );
+      kinect2.SettingData( json );
+    }
+    else{
+      ofLogWarning() << "json.open: Can't open serial.json file, use default settings" << std :: endl;
+    }
+    json.clear();
+  }
+  
+  return;
+  
+}
+/* =================================================================== *
+ * void update_KinectCV(vector<ofxOscMessage>& humans)                 *
+ * =================================================================== */
+inline void MainScreen :: update_KinectCV(vector<ofxOscMessage>& humans){
+  
+  
+  
+  ofPixels& binary = binaryImage.getPixels();
+  int      size   = kinect1.Size().x * kinect1.Size().y;
+  
+  {
+    const ofxCvGrayscaleImage& image = kinect1.update_dualscreen();
+    const ofPixels&            pix   = image.getPixels();
+    for(int i = 0 ; i < size ; ++ i)
+      binary[i] = pix[i];
+  }
+  {
+    const ofxCvGrayscaleImage& image = kinect2.update_dualscreen();
+    const ofPixels&            pix   = image.getPixels();
+    
+    for(int i = 0 ; i < size ; ++ i)
+      binary[size + i] = pix[i];
+  }
+  
+  contourfinder.findContours(binaryImage, kinect1.MinArea(), kinect1.MaxArea(), 200, false);
+  
+  for(int i = 0, size = contourfinder.blobs.size() ; i < size ; ++ i){
+    
+    //get contour center position
+    ofPoint pos = contourfinder.blobs.at(i).centroid;
+    
+    //create OSC Message
+    ofxOscMessage m;
+    m.setAddress("/human");
+    m.addIntArg(pos.x);
+    m.addIntArg(pos.y);
+    m.addIntArg( (pos.y > kinect1.Size().y)  ?
+                kinect2.Depth(pos.x, pos.y - kinect1.Size().y) :
+                kinect1.Depth(pos.x, pos.y)  );
+    
+    //store for humans
+    humans.push_back(m);
+    
+    //ofLogWarning() << "nBlobs:" << humans.size();
+  }
+}
+
+/* =================================================================== *
+ * void setup_Timer(void)                                              *
+ * =================================================================== */
+inline void MainScreen :: setup_Timer(void){
+  nohuman    .Setup(true, this, &:: MainScreen :: WhiteOut);
+  whiteout   .Setup(true, this, &:: MainScreen :: End_WhiteOut);
+  forcechange.Setup(true, this, &:: MainScreen :: WhiteOut);
+}
+
+/* =================================================================== *
+ * void SceneChage(const int scene)                                    *
+ * =================================================================== */
+inline void MainScreen :: SceneChange(const int scene){
+  
+  switch( scene ){
+    case  0  : delete basedraw; basedraw = new Blank();       break; //Blank
+    case  1  : delete basedraw; basedraw = new tkm001();      break; //track circles
+    case  2  : delete basedraw; basedraw = new RippleScene(); break; //Ripples
+    case  3  : delete basedraw; basedraw = new Relation();    break; //Relation
+    case  4  : delete basedraw; basedraw = new Gravity();     break; //Gravity
+    case  5  : delete basedraw; basedraw = new takami();      break; //EscapeParticles
+    case  6  : delete basedraw; basedraw = new Gushi01();     break; //prrrrrrrroooo
+    case  7  : delete basedraw; basedraw = new tkmOTO();      break; //tkmOTO
+    case  8  : delete basedraw; basedraw = new origami();     break; //origami
+    case  9  : delete basedraw; basedraw = new lines();       break; //lines
+    case 10  : delete basedraw; basedraw = new dot();         break; //tkmOTO
+    case 11  : delete basedraw; basedraw = new nununu();      break; //origami
+    case 12  : delete basedraw; basedraw = new star();        break; //lines
+    case 13  : delete basedraw; basedraw = new Medama();      break; //medama
+    case 14  : delete basedraw; basedraw = new marumaru();    break; //marumaru
+    default  : return;
+  }
+  
+  DisplaySetup();
+  basedraw -> setup();
+  
+  style = ofGetStyle();
+  
+  forcechange.Start(FORCECHANGE_TIME, 1);
+  
+  return;
+}

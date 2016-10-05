@@ -10,6 +10,8 @@ int MainScreen :: height;
 
 //--------------------------------------------------------------
 void MainScreen::setup(){
+  
+  ofSetDataPathRoot("../../../data/");
     
   ofSetLogLevel(OF_LOG_VERBOSE);
 
@@ -38,7 +40,7 @@ void MainScreen::setup(){
   if( font.load("font/verdana.ttf", 100) != true){
     ofLogWarning() << "can't load font" << endl;
   }
-  forcechange.Start(FORCECHAGE_TIME, 1);
+  forcechange.Start(FORCECHANGE_TIME, 1);
   keyPressed('f');
 }
 
@@ -68,7 +70,7 @@ void MainScreen::update(){
 
   vector<ofxOscMessage> humans;
   
-  if(ofGetWindowMode() == OF_FULLSCREEN) humans = update_KinectCV();
+  if(ofGetWindowMode() == OF_FULLSCREEN) update_KinectCV(humans);
  
   while(receiver.hasWaitingMessages()){
     ofxOscMessage m;
@@ -114,12 +116,12 @@ void MainScreen::update(){
   basedraw -> update();
 
   if     (whiteout.Status() == ofxSimpleTimer<bool> :: STATUS :: RUN) nohuman.Stop();
+  else if(humans  .size  () != 0)                                     nohuman.Stop();
   else if(nohuman .Status() == ofxSimpleTimer<bool> :: STATUS :: RUN);
-  else if(humans  .size()   == 0)                                     nohuman.Start(NOHUMAN_TIME, 1);
+  else                                                                nohuman.Start(NOHUMAN_TIME, 1);
 
   nohuman    .Update();
   whiteout   .Update();
-  forcechange.Update();
 }
 
 //--------------------------------------------------------------
@@ -137,15 +139,15 @@ void MainScreen::draw(){
 
 
   if(forcechange.Status() != ofxSimpleTimer<bool> :: STATUS :: STOP){
-    float time = forcechange.CurrentTime();
-    if(time <= FORCECHAGE_TIME - 10000){
+    float time = forcechange.Update();
+    if(time >= FORCECHANGE_TIME - 10000){
       ofColor clr = ofGetBackgroundColor();
       clr.r = 255 - clr.r;
       clr.g = 255 - clr.g;
       clr.b = 255 - clr.b;
 
       stringstream ss;
-      ss << int(time / 1000);
+      ss << int( (FORCECHANGE_TIME - time) / 1000);
       int width  = font.stringWidth ( ss.str() ) / 2;
       int height = font.stringHeight( ss.str() ) / 2;
       ofSetColor(clr);
@@ -216,157 +218,3 @@ void MainScreen::dragEvent(ofDragInfo dragInfo){
 
 }
 
-/* =================================================================== *
- * void WhiteOut(bool& id)                                             *
- * =================================================================== */
-void MainScreen :: WhiteOut(bool& id){
-
-  nohuman    .Stop();
-  forcechange.Stop();
-
-  delete basedraw;
-  basedraw = new class WhiteOut();
-
-  DisplaySetup();
-  basedraw -> setup();
-
-  style = ofGetStyle();
-  
-  whiteout.Start(WHITEOUT_TIME, 1);
-}
-
-/* =================================================================== *
- * void End_WhiteOut(bool& id)                                         *
- * =================================================================== */
-void MainScreen :: End_WhiteOut(bool& id){
-
-  scene = (scene + 1) % SCENE_NUM;
-  
-  SceneChange( scene + 1 );
-  return;
-
-}
-
-
-/* =================================================================== *
- * void setup_KinectCV(void)                                           *
- * =================================================================== */
-void MainScreen :: setup_KinectCV(void){
-
-  ofxKinect :: listDevices();
-  {
-    ofxJSON json;
-    if( ( json.open(serialfile) ) && ( ! json.isNull() ) ){
-      kinect1.setup( json[0].asString() );
-      kinect2.setup( json[1].asString() );
-    }
-    else{
-      ofLogWarning() << "json.open: Can't open serial.json file, use default serial" << std :: endl;
-      kinect1.setup("A00364800479053A");
-      kinect2.setup("A00363A02391053A");
-    }
-    if( json.open(jsonfile) ){
-      ofLogVerbose() << json.getRawString() << endl;
-
-      kinect1.SettingData( json );
-      kinect2.SettingData( json );
-    }
-    else{
-      ofLogWarning() << "json.open: Can't open serial.json file, use default settings" << std :: endl;
-    }
-    json.clear();
-  }
-
-  return;
-
-}
-/* =================================================================== *
- * const vector<ofxOscMessage> update_KinectCV(void)                   *
- * =================================================================== */
-const vector<ofxOscMessage> MainScreen :: update_KinectCV(void){
-
-
-
-  ofPixels& binary = binaryImage.getPixels();
-  int      size   = kinect1.Size().x * kinect1.Size().y;
-
-  {
-    const ofxCvGrayscaleImage& image = kinect1.update_dualscreen();
-    const ofPixels&            pix   = image.getPixels();
-    for(int i = 0 ; i < size ; ++ i)
-      binary[i] = pix[i];
-  }
-  {
-    const ofxCvGrayscaleImage& image = kinect2.update_dualscreen();
-    const ofPixels&            pix   = image.getPixels();
-
-    for(int i = 0 ; i < size ; ++ i)
-      binary[size + i] = pix[i];
-  }
-
-  contourfinder.findContours(binaryImage, kinect1.MinArea(), kinect1.MaxArea(), 200, false);
-
-  vector<ofxOscMessage> humans;
-  for(int i = 0, size = contourfinder.blobs.size() ; i < size ; ++ i){
-
-    //get contour center position
-    ofPoint pos = contourfinder.blobs.at(i).centroid;
-
-    //create OSC Message
-    ofxOscMessage m;
-    m.setAddress("/human");
-    m.addIntArg(pos.x);
-    m.addIntArg(pos.y);
-    m.addIntArg( (pos.y > kinect1.Size().y)  ? 
-        kinect2.Depth(pos.x, pos.y - kinect1.Size().y) :
-        kinect1.Depth(pos.x, pos.y)  );
-
-    //store for humans
-    humans.push_back(m);
-
-    //ofLogWarning() << "nBlobs:" << humans.size();
-  }
-
-  return humans;
-}
-
-/* =================================================================== *
- * void setup_Timer(void)                                              *
- * =================================================================== */
-void MainScreen :: setup_Timer(void){
-  nohuman    .Setup(true, this, &:: MainScreen :: WhiteOut);
-  whiteout   .Setup(true, this, &:: MainScreen :: End_WhiteOut);
-  forcechange.Setup(true, this, &:: MainScreen :: WhiteOut);
-}
-
-/* =================================================================== *
- * void SceneChage(const int scene)                                    *
- * =================================================================== */
-void MainScreen :: SceneChange(const int scene){
-  
-      switch( scene ){
-        case  0  : delete basedraw; basedraw = new Blank();       break; //Blank
-        case  1  : delete basedraw; basedraw = new tkm001();      break; //track circles
-        case  2  : delete basedraw; basedraw = new RippleScene(); break; //Ripples
-        case  3  : delete basedraw; basedraw = new Relation();    break; //Relation
-        case  4  : delete basedraw; basedraw = new Gravity();     break; //Gravity
-        case  5  : delete basedraw; basedraw = new takami();      break; //EscapeParticles
-        case  6  : delete basedraw; basedraw = new Gushi01();     break; //prrrrrrrroooo
-        case  7  : delete basedraw; basedraw = new tkmOTO();      break; //tkmOTO
-        case  8  : delete basedraw; basedraw = new origami();     break; //origami
-        case  9  : delete basedraw; basedraw = new lines();       break; //lines
-        case 10  : delete basedraw; basedraw = new dot();         break; //tkmOTO
-        case 11  : delete basedraw; basedraw = new nununu();      break; //origami
-        case 12  : delete basedraw; basedraw = new star();        break; //lines
-        case 13  : delete basedraw; basedraw = new Medama();      break; //medama
-        case 14  : delete basedraw; basedraw = new marumaru();    break; //marumaru
-        default  : return;
-      }
-
-      DisplaySetup();
-      basedraw -> setup();
-      
-      style = ofGetStyle();
-
-      return;
-}
